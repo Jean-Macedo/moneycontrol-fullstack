@@ -30,3 +30,9 @@ dist-ssr
 
 # Vercel
 .vercel
+
+# Env: ignora tudo, menos o exemplo versionado.
+# A regra ampla .env* veio do 'vercel link' e casava com .env.example,
+# que precisa ficar no repositorio — dai a negacao explicita.
+.env*
+!.env.example
