@@ -61,6 +61,35 @@ src/
 └── constants/     # categorias.js — fonte única de verdade
 ```
 
+## Banco de dados e segurança
+
+Tabela única `gastos`, criada por [supabase/migrations/001_gastos.sql](supabase/migrations/001_gastos.sql).
+A integridade é imposta pelo **banco**, não só pela interface: `CHECK` restringe
+a categoria às três permitidas, exige valor positivo e impõe um teto.
+
+**RLS está ativo.** O modelo de acesso da V2, deliberado:
+
+| Operação | Permitida ao `anon`? |
+|---|---|
+| `select` | sim |
+| `insert` | sim |
+| `update` | **não** — sem política |
+| `delete` | **não** — sem política |
+
+Lançamentos são imutáveis. A anon key vai para o bundle do frontend e é pública
+por natureza — é o RLS que sustenta a segurança, não o segredo da chave.
+
+> **Limitação conhecida:** sem autenticação, quem tiver a URL do app consegue ler
+> e inserir gastos. Aceitável para uso pessoal; **antes de divulgar o app**, migrar
+> para autenticação conforme PRD-02 §8.
+
+### Configurando o `VITE_SUPABASE_URL`
+
+Use o **Project URL** — apenas a origem, `https://<ref>.supabase.co`. Colar o
+endpoint REST completo (com `/rest/v1`) faz toda chamada falhar com
+`PGRST125 — Invalid path specified in request URL`. O cliente valida o formato
+na inicialização e avisa com mensagem clara.
+
 ## Deploy
 
 Vercel conectado a este repositório, deploy automático a cada push em `main`.
