@@ -199,14 +199,14 @@ update gastos set valor = 999 where id = '<algum-id>';        -- deve ser negado
 
 ## 7. Teste 4 — PWA e mobile
 
-Executado em **device físico** — Android e iOS, se disponíveis. O emulador do DevTools não reproduz teclado, área de toque real nem instalação.
+Executado em **device físico Android (Chrome)** — o device de referência do projeto (PRD-00 §8). Não há iPhone disponível; os passos de iOS ficam como N/A. O emulador do DevTools não reproduz teclado, área de toque real nem instalação.
 
 **Roteiro de instalação:**
 
 1. Abrir a URL de produção no Chrome Android → "Instalar app" → confirmar ícone na gaveta.
 2. Abrir pelo ícone → confirmar tela cheia, sem barra de URL, com splash screen.
-3. Abrir a URL no Safari iOS → Compartilhar → "Adicionar à Tela de Início" → confirmar ícone e nome "Gastos".
-4. Abrir pelo ícone no iOS → confirmar tela cheia e respeito à safe-area (notch).
+3. ~~Abrir a URL no Safari iOS → Compartilhar → "Adicionar à Tela de Início".~~ — **N/A, sem device iOS**
+4. ~~Abrir pelo ícone no iOS → confirmar tela cheia e respeito à safe-area (notch).~~ — **N/A, sem device iOS**
 
 **Roteiro de uso com uma mão:**
 

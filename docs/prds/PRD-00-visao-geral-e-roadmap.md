@@ -81,7 +81,7 @@ Um PRD só é considerado concluído quando:
 - [ ] Todos os critérios de aceite do próprio PRD estão verificados.
 - [ ] O código está na branch principal e o deploy automático na Vercel passou.
 - [ ] Nenhum erro no console do navegador em uso normal.
-- [ ] Testado em um dispositivo móvel real, não só no emulador do DevTools.
+- [ ] Testado em um dispositivo móvel real — **Android/Chrome** —, não só no emulador do DevTools.
 - [ ] `npm run build` conclui sem warnings novos.
 
 ## 8. Convenções compartilhadas
@@ -90,6 +90,7 @@ Um PRD só é considerado concluído quando:
 - **Armazenamento de valor:** `numeric(12,2)` no banco; em JS trafega como `number` já normalizado (ponto decimal).
 - **Fuso horário:** `America/Sao_Paulo`. O agrupamento mensal usa a data **local**, nunca UTC crua — ver PRD-02 §4 e PRD-04 §5.
 - **Idioma da interface:** português do Brasil.
+- **Device de referência para testes:** **Android (Chrome)**. Não há iPhone disponível no projeto. Critérios de aceite específicos de iOS/Safari ficam marcados `N/A — sem device iOS` e **não bloqueiam** a Definição de Pronto. O código voltado a iOS (meta tags, `apple-touch-icon`) permanece no projeto, porque custa quase nada e serve a usuários futuros — apenas não é validado por nós.
 - **Nomenclatura:** componentes em `PascalCase`, hooks em `camelCase` com prefixo `use`, colunas do banco em `snake_case`.
 
 ## 9. Riscos conhecidos
