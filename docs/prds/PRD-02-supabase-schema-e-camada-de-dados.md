@@ -241,9 +241,23 @@ export function useGastos(ano, mes) {
 - [x] `update` via anon key é **negado** por ausência de política. *(PATCH no-op em linha legível retorna `[]` com `Prefer: return=representation` — prova de bloqueio, não de filtro vazio)*
 - [ ] `delete` via anon key é negado. *(inferido: mesma ausência de política que barra o update; não exercitado contra linha real para não arriscar dados)*
 - [x] `listarGastosDoMes` traz o último dia do mês e **não** traz o primeiro do seguinte. *(agosto/2026: 3 linhas, R$ 54,90, sem o lançamento de 01/09)*
-- [ ] Um gasto inserido às 22h30 (horário de Brasília) do dia 31 fica registrado no dia 31, não no dia 1º.
-- [ ] `valor` chega ao componente React como `number`, não como string.
-- [ ] Com `.env.local` vazio, o app falha na inicialização com mensagem clara, e não com `undefined is not a function`.
+- [ ] Um gasto inserido às 22h30 (horário de Brasília) do dia 31 fica registrado no dia 31, não no dia 1º. *(não exercitado — exige inserir no horário real da virada; o default `at time zone 'America/Sao_Paulo'` está no schema e a gravação de hoje caiu na data local correta)*
+- [x] `valor` chega ao componente React como `number`, não como string. *(verificado em teste de integração contra o banco)*
+- [x] Com `.env.local` vazio, o app falha na inicialização com mensagem clara, e não com `undefined is not a function`. *(e também com URL malformada — ver §5.1)*
+
+### Desvio registrado em relação ao §5.4
+
+O `useGastos` publicado não é o esboço deste PRD. Dois problemas do esboço:
+
+1. `setCarregando(true)` roda de forma síncrona dentro do efeito, o que dispara
+   um render extra — apontado pelo linter.
+2. Sem guarda de corrida, uma resposta atrasada de um mês já abandonado
+   sobrescreve o mês em exibição. Trocar de mês depressa no seletor do PRD-04
+   basta para reproduzir.
+
+A versão entregue guarda no estado a chave `ano-mes` a que os dados pertencem.
+Com isso `carregando` passa a ser **derivado durante o render** e respostas de
+meses obsoletos são descartadas. A API pública do hook não mudou.
 
 ## 7. Validação manual sugerida
 
