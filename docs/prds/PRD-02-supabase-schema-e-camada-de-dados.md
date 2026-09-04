@@ -87,6 +87,8 @@ create policy "anon pode inserir gastos"
 -- Sem política, a operação é negada. Lançamentos são imutáveis na V2.
 ```
 
+> **Armadilha de configuração:** o `VITE_SUPABASE_URL` deve ser **apenas a origem** — `https://<ref>.supabase.co`, sem `/rest/v1` e sem barra final. O cliente Supabase acrescenta o caminho sozinho; colar o endpoint REST completo produz `/rest/v1/rest/v1/...` e todas as chamadas falham com `PGRST125 — Invalid path specified in request URL`, que não sugere em nada a causa real.
+
 > **Limitação aceita e registrada:** com essas políticas, quem obtiver a URL do app consegue ler e inserir gastos. É aceitável para um app pessoal não divulgado. **Se o app for compartilhado ou publicado**, executar antes a migração para autenticação descrita em §8.
 
 ## 5. Camada de acesso a dados
@@ -230,13 +232,15 @@ export function useGastos(ano, mes) {
 
 ## 6. Critérios de aceite
 
-- [ ] Tabela `gastos` existe com todas as colunas, tipos e constraints da §3.1.
-- [ ] `insert` com `categoria = 'Comida'` é **rejeitado** pelo banco.
-- [ ] `insert` com `valor = -10` é **rejeitado** pelo banco.
-- [ ] `insert` com `valor = 0` é **rejeitado** pelo banco.
-- [ ] `insert` sem informar `data` grava a data de hoje no fuso de São Paulo.
-- [ ] `delete` e `update` via anon key são **negados** por ausência de política.
-- [ ] `listarGastosDoMes(2026, 1)` traz o gasto do dia 31/01 e **não** traz o do dia 01/02.
+- [x] Tabela `gastos` existe com todas as colunas, tipos e constraints da §3.1.
+- [x] `insert` com `categoria = 'Comida'` é **rejeitado** pelo banco. *(HTTP 400, SQLSTATE 23514)*
+- [x] `insert` com `valor = -10` é **rejeitado** pelo banco. *(HTTP 400)*
+- [x] `insert` com `valor = 0` é **rejeitado** pelo banco. *(HTTP 400)*
+- [x] `insert` com `valor = 2000000` é **rejeitado** pelo teto. *(HTTP 400)*
+- [x] `insert` sem informar `data` grava a data de hoje no fuso de São Paulo. *(linha gravada em 2026-09-04)*
+- [x] `update` via anon key é **negado** por ausência de política. *(PATCH no-op em linha legível retorna `[]` com `Prefer: return=representation` — prova de bloqueio, não de filtro vazio)*
+- [ ] `delete` via anon key é negado. *(inferido: mesma ausência de política que barra o update; não exercitado contra linha real para não arriscar dados)*
+- [x] `listarGastosDoMes` traz o último dia do mês e **não** traz o primeiro do seguinte. *(agosto/2026: 3 linhas, R$ 54,90, sem o lançamento de 01/09)*
 - [ ] Um gasto inserido às 22h30 (horário de Brasília) do dia 31 fica registrado no dia 31, não no dia 1º.
 - [ ] `valor` chega ao componente React como `number`, não como string.
 - [ ] Com `.env.local` vazio, o app falha na inicialização com mensagem clara, e não com `undefined is not a function`.
