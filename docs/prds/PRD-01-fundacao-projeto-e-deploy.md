@@ -171,7 +171,7 @@ export default function AppShell({ children }) {
 - [x] Classes do Tailwind aplicam estilo. *(tema custom confirmado no CSS de saída: `bg-lazer` compila para `rgb(124 58 237)`)*
 - [x] A URL de produção da Vercel abre no navegador do celular via HTTPS.
 - [x] `.env.local` **não** aparece em `git status`.
-- [ ] Um push na branch principal dispara deploy e a mudança aparece na URL pública em menos de 2 minutos. *(push feito; falta confirmar no painel da Vercel)*
+- [x] Um push na branch principal dispara deploy e a mudança aparece na URL pública em menos de 2 minutos. *(5 deploys de produção confirmados via `vercel ls`, todos `Ready` em 4–7 s — bem abaixo do teto de 2 min)*
 - [x] No **Android**, o conteúdo não fica escondido atrás da barra de navegação por gestos (safe-area respeitada). *(verificado em device real)*
 - [ ] ~~No iPhone, o conteúdo não fica escondido atrás da barra inferior do Safari.~~ — **N/A, sem device iOS** (PRD-00 §8)
 - [x] Não há barra de rolagem horizontal em viewport de 320 px de largura. *(verificado em device real)*
