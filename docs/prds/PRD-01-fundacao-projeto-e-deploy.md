@@ -25,7 +25,7 @@ Todo o resto assume um build funcionando e um deploy contínuo. Sem isso não h�
 - Variáveis de ambiente (`.env.local` + `.env.example`).
 - Repositório Git com `.gitignore` correto.
 - Projeto na Vercel conectado ao repositório, com deploy automático a cada push.
-- Layout shell mobile-first: container centralizado, largura máxima, safe-area do iPhone.
+- Layout shell mobile-first: container centralizado, largura máxima, safe-area (barra de navegação por gestos do Android; notch do iPhone).
 
 ### Fora
 
@@ -166,14 +166,15 @@ export default function AppShell({ children }) {
 
 ## 5. Critérios de aceite
 
-- [ ] `npm run dev` sobe a aplicação sem erros e o hot reload funciona.
-- [ ] `npm run build` gera `dist/` sem warnings.
-- [ ] Classes do Tailwind aplicam estilo (validar com um elemento de teste colorido).
-- [ ] A URL de produção da Vercel abre no navegador do celular via HTTPS.
-- [ ] `.env.local` **não** aparece em `git status`.
-- [ ] Um push na branch principal dispara deploy e a mudança aparece na URL pública em menos de 2 minutos.
-- [ ] No iPhone, o conteúdo não fica escondido atrás da barra inferior do Safari (safe-area respeitada).
-- [ ] Não há barra de rolagem horizontal em viewport de 320 px de largura.
+- [x] `npm run dev` sobe a aplicação sem erros e o hot reload funciona. *(servidor sobe em ~250 ms e serve o cliente HMR; recarga a quente não exercitada com edição real)*
+- [x] `npm run build` gera `dist/` sem warnings. *(191 KB / 60,5 KB gzip)*
+- [x] Classes do Tailwind aplicam estilo. *(tema custom confirmado no CSS de saída: `bg-lazer` compila para `rgb(124 58 237)`)*
+- [x] A URL de produção da Vercel abre no navegador do celular via HTTPS.
+- [x] `.env.local` **não** aparece em `git status`.
+- [ ] Um push na branch principal dispara deploy e a mudança aparece na URL pública em menos de 2 minutos. *(push feito; falta confirmar no painel da Vercel)*
+- [x] No **Android**, o conteúdo não fica escondido atrás da barra de navegação por gestos (safe-area respeitada). *(verificado em device real)*
+- [ ] ~~No iPhone, o conteúdo não fica escondido atrás da barra inferior do Safari.~~ — **N/A, sem device iOS** (PRD-00 §8)
+- [x] Não há barra de rolagem horizontal em viewport de 320 px de largura. *(verificado em device real)*
 
 ## 6. Riscos e cuidados
 

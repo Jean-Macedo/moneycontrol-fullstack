@@ -172,7 +172,8 @@ export function AvisoAtualizacao() {
 **Instalação**
 
 - [ ] No Chrome Android, o menu oferece "Instalar app" ou "Adicionar à tela inicial".
-- [ ] No Safari iOS, "Compartilhar → Adicionar à Tela de Início" cria o atalho com o ícone personalizado.
+- [ ] ~~No Safari iOS, "Compartilhar → Adicionar à Tela de Início" cria o atalho com o ícone personalizado.~~ — **N/A, sem device iOS** (PRD-00 §8)
+- [ ] No Chrome Android, o prompt `beforeinstallprompt` dispara e o botão "Instalar" da própria interface conclui a instalação.
 - [ ] O ícone na tela inicial é o do app, não uma miniatura da página.
 - [ ] Aberto pelo ícone, o app roda em tela cheia, sem barra de URL.
 - [ ] A splash screen usa `background_color` e o ícone 512.
@@ -186,7 +187,8 @@ export function AvisoAtualizacao() {
 - [ ] Offline, tentar salvar exibe erro claro — e não trava a interface nem finge sucesso.
 - [ ] Voltando a conexão, a faixa some e um novo lançamento salva normalmente.
 - [ ] Após um deploy novo, o app oferece atualizar; aceitar carrega a versão nova.
-- [ ] O conteúdo respeita a safe-area no iPhone com notch, em modo standalone.
+- [ ] O conteúdo respeita a safe-area em modo standalone no **Android** (barra de gestos).
+- [ ] ~~O conteúdo respeita a safe-area no iPhone com notch, em modo standalone.~~ — **N/A, sem device iOS** (PRD-00 §8)
 - [ ] Nenhum recurso do Supabase é servido do cache (verificar na aba Network do DevTools).
 
 ## 6. Riscos
@@ -196,7 +198,7 @@ export function AvisoAtualizacao() {
 | Service worker servindo bundle antigo | Usuário reporta bug já corrigido | `autoUpdate` + prompt explícito de atualização |
 | Cache de resposta do Supabase | Total mensal errado | `NetworkOnly` para o domínio, verificado em teste |
 | Ícone maskable cortado | Ícone feio ou ilegível | Conteúdo dentro do círculo seguro de 80% |
-| `apple-touch-icon` com transparência | Fundo preto no iOS | PNG opaco |
+| `apple-touch-icon` com transparência | Fundo preto no iOS | PNG opaco — **não validável**, sem device iOS |
 | Safari limpando dados do site | Perda de cache (não de dados — estão na nuvem) | Aceito: a fonte de verdade é o Supabase |
 
 ## 7. Fila offline — decisão pendente
