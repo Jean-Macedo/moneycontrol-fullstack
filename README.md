@@ -69,7 +69,7 @@ Vercel conectado a este repositório, deploy automático a cada push em `main`.
 - Output Directory: `dist`
 - Environment Variables: as duas `VITE_*` acima, em Production e Preview.
 
-URL de produção: _(preencher após o import na Vercel)_
+URL de produção: **https://moneycontrol-fullstack.vercel.app**
 
 ## Documentação
 
