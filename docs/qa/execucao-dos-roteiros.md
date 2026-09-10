@@ -124,9 +124,25 @@ Gatilho de `updated_at` conferido: dos 9 lançamentos, exatamente os 2 corrigido
 | 11. App abre offline, a partir do shell em cache | ✅ |
 | 12. Faixa some e lançamento salva ao voltar a rede | ✅ |
 | 13-14. Aviso de nova versão | ✅ |
-| 15. Lighthouse | ⏳ **pendente** — ver §8 |
+| 15. Lighthouse | ✅ ver §6.1 |
 
 Também verificado: sem rolagem horizontal em 320 px, e safe-area respeitada em modo standalone com a barra de gestos do Android.
+
+### 6.1. Auditoria Lighthouse
+
+Executada em 10/09/2026 pelo PageSpeed Insights, estratégia **mobile**, contra a URL de produção.
+
+| Categoria | Resultado | Meta do PRD-06 §7 |
+|---|---|---|
+| Desempenho | **99** | ≥ 90 |
+| Acessibilidade | **92** | ≥ 90 |
+| Práticas recomendadas | **100** | ≥ 90 |
+| SEO | **100** | — |
+| Navegação agêntica | 2/2 | — |
+
+As quatro metas foram batidas. A acessibilidade é a menor das notas e a única com folga estreita — vale revisitar se o app crescer, mas passa.
+
+Isso fecha o **RNF-01** do PRD-00, que pedia carregamento rápido em rede móvel e bundle inicial abaixo de 200 KB gzip: o bundle publicado está em ~121 KB gzip e o desempenho medido em 99.
 
 ## 7. Matriz de cobertura — requisito da especificação × verificação
 
@@ -148,14 +164,15 @@ Também verificado: sem rolagem horizontal em 320 px, e safe-area respeitada em 
 
 | Item | Por quê | Como resolver |
 |---|---|---|
-| Auditoria Lighthouse | A API do PageSpeed exige chave; a cota anônima está esgotada | Rodar em https://pagespeed.web.dev/ com a URL de produção, ou pelo DevTools do Chrome |
 | Tempo de resposta da inserção | Não foi cronometrado | Aba Network do DevTools, salvando um lançamento |
 | Gasto às 22h30 do dia 31 | Exige a virada real do mês | Lançar algo tarde da noite em 30/09 e conferir a data gravada |
 | Três dias de uso real (PRD-06 §9) | O app entrou em uso em 10/09/2026 | Reavaliar a partir de 13/09/2026 |
 
 ## 9. Conclusão
 
-Dos quatro roteiros do PRD-06, **três estão integralmente executados e aprovados**. O quarto depende apenas da auditoria Lighthouse, que exige uma ferramenta externa.
+Os quatro roteiros do PRD-06 estão **integralmente executados e aprovados**, incluindo a auditoria Lighthouse.
+
+O que resta são critérios que não dependem de trabalho, e sim de tempo: os três dias de uso real exigidos pelo §9, e a virada de mês para exercitar o lançamento feito perto da meia-noite.
 
 Nenhum defeito funcional foi encontrado nos roteiros. Os problemas descobertos durante o desenvolvimento — e corrigidos — estão registrados nos PRDs correspondentes:
 

@@ -238,7 +238,7 @@ Executado em **device físico Android (Chrome)** — o device de referência do 
 - [x] Os três lançamentos com uma mão levam menos de 20 s.
 - [x] Nenhuma rolagem horizontal em viewport de 320 px.
 - [x] Comportamento offline conforme os passos 9 a 12.
-- [ ] Lighthouse dentro das metas. *(pendente: a API do PageSpeed exige chave e a cota anônima está esgotada — rodar em pagespeed.web.dev)*
+- [x] Lighthouse dentro das metas. *(mobile, 10/09/2026: Performance 99, Acessibilidade 92, Práticas recomendadas 100, SEO 100)*
 
 ---
 
@@ -261,8 +261,8 @@ Executado em **device físico Android (Chrome)** — o device de referência do 
 A V2 está pronta para uso quando:
 
 - [x] `npm test` passa integralmente. *(16 arquivos, 151 testes)*
-- [x] Os quatro roteiros dos §4 a §7 foram executados e registrados em [docs/qa/execucao-dos-roteiros.md](../qa/execucao-dos-roteiros.md). *(o §7 com a auditoria Lighthouse pendente)*
-- [ ] Nenhum item de aceite dos PRDs 01 a 05 está pendente. *(restam o Lighthouse e o gasto às 22h30 do dia 31, que exige a virada real do mês)*
+- [x] Os quatro roteiros dos §4 a §7 foram executados e registrados em [docs/qa/execucao-dos-roteiros.md](../qa/execucao-dos-roteiros.md).
+- [ ] Nenhum item de aceite dos PRDs 01 a 05 está pendente. *(resta só o gasto às 22h30 do dia 31, que exige a virada real do mês)*
 - [ ] O app rodou por três dias de uso real sem lançamento perdido ou valor incorreto. *(uso iniciado em 10/09/2026; reavaliar a partir de 13/09)*
 
 ## 10. Entregáveis
