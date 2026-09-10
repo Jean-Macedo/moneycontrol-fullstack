@@ -51,16 +51,21 @@ Um aplicativo web progressivo (PWA) mobile-first que permite:
 | 03 | Cadastro rápido de gastos | Fluxo valor → categoria → salvo, com validação | 01, 02 |
 | 04 | Dashboard mensal e seletor de mês | Total e subtotais corretos por período | 01, 02 |
 | 05 | PWA: instalação, offline e identidade visual | App instalável em tela cheia | 01, 03, 04 |
+| 07 | Autenticação e isolamento de dados | Login por e-mail e senha; RLS por dono | 02, 03, 04 |
 | 06 | Plano de testes e QA de aceite | Suíte automatizada + roteiro manual em device real | 03, 04, 05 |
 
 ### Ordem de execução recomendada
 
 ```
 PRD-01 ──> PRD-02 ──┬──> PRD-03 ──┐
-                    └──> PRD-04 ──┴──> PRD-05 ──> PRD-06
+                    └──> PRD-04 ──┴──> PRD-07 ──> PRD-05 ──> PRD-06
 ```
 
 PRD-03 e PRD-04 podem ser executados em paralelo assim que PRD-02 estiver concluído, desde que ambos consumam a mesma camada de dados definida em PRD-02 §5.
+
+**PRD-07 entra antes do PRD-05** por dois motivos. O app instalado precisa nascer com sessão persistente — trocar o modelo de acesso depois de instalado exige relogar todo mundo e mexer no que o service worker já cacheou. E o PRD-05 é o que torna o app confortável de usar todo dia, o que aumenta o volume de dado real exposto pelo acesso anônimo.
+
+O PRD-07 não estava na decomposição original: nasceu quando a premissa de "app pessoal não divulgado" do PRD-02 §4 deixou de valer, com o repositório público e lançamentos reais na base.
 
 ## 6. Requisitos não funcionais globais
 
@@ -98,7 +103,7 @@ Um PRD só é considerado concluído quando:
 | Risco | Impacto | Mitigação | PRD |
 |---|---|---|---|
 | Deslocamento de fuso faz gasto do dia 1 cair no mês anterior | Totais mensais errados | Armazenar `data` como `date` local e filtrar por intervalo local | 02, 04 |
-| Chave anônima do Supabase exposta no bundle | Escrita/leitura indevida | RLS obrigatório; anon key só com as políticas mínimas | 02 |
+| Chave anônima do Supabase exposta no bundle | Escrita/leitura indevida | RLS obrigatório; anon key só com as políticas mínimas. **Endereçado de vez pelo PRD-07**, que troca acesso anônimo por autenticação por dono | 02, 07 |
 | Service worker servindo bundle velho após deploy | Usuário vê versão antiga | `autoUpdate` + prompt de recarregar | 05 |
 | Vírgula decimal do teclado brasileiro | Valor salvo errado (12,50 → 1250) | Normalização única e centralizada, com testes | 03 |
 
