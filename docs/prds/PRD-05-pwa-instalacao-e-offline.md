@@ -210,6 +210,16 @@ Persistir lançamentos feitos offline em IndexedDB e sincronizar ao voltar a con
 
 **Recomendação:** ficar fora da V2, com o erro honesto do §4.4. Reavaliar depois de duas semanas de uso real — se o usuário perder lançamentos com frequência, implementar como primeira feature da V3.
 
+> **DECIDIDO em 10/09/2026: fica fora da V2.** A fila não foi implementada. O que
+> existe é o aviso do §4.4, escrito para não esconder a consequência: *"Sem
+> conexão — seus lançamentos não estão sendo salvos"*. Dizer apenas "offline"
+> deixaria o usuário digitar um valor que será recusado.
+>
+> Um lançamento marcado como salvo que nunca sincroniza é pior que um erro
+> explícito: o usuário confia num número que não existe no banco. Reavaliar após
+> duas semanas de uso real, com dado sobre quantos lançamentos foram perdidos —
+> não por impressão.
+
 ## 8. Entregáveis
 
 - `vite.config.js` com `VitePWA` configurado.

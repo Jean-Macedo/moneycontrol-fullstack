@@ -8,6 +8,15 @@
       content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1"
     />
     <meta name="theme-color" content="#0f172a" />
+
+    <!-- O Safari ignora parte do manifest; estas tags cobrem o que falta.
+         Mantidas por custarem quase nada, mas não validadas: o device de
+         referência do projeto é Android (PRD-00 §8). -->
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Gastos" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="description" content="Controle rápido de gastos diários por categoria." />
     <title>Meus Gastos</title>
   </head>

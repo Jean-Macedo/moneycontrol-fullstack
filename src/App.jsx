@@ -5,23 +5,41 @@ import SeletorMes from './components/dashboard/SeletorMes';
 import ResumoMensal from './components/dashboard/ResumoMensal';
 import ErroCarregamento from './components/dashboard/ErroCarregamento';
 import CadastroRapido from './components/lancamento/CadastroRapido';
+import AvisoAtualizacao from './components/ui/AvisoAtualizacao';
+import BotaoInstalar from './components/ui/BotaoInstalar';
+import FaixaOffline from './components/ui/FaixaOffline';
 import Toast from './components/ui/Toast';
 import { usePeriodo } from './hooks/usePeriodo';
 import { useGastos } from './hooks/useGastos';
+import { useOnline } from './hooks/useOnline';
 import { useSessao } from './hooks/useSessao';
 import { supabase } from './lib/supabase';
 
 export default function App() {
   const { sessao, carregando: carregandoSessao } = useSessao();
+  const online = useOnline();
 
-  // Enquanto a sessão gravada não é lida, não mostra nem login nem dashboard —
-  // qualquer um dos dois piscaria e depois seria substituído pelo outro.
-  if (carregandoSessao) return <TelaCarregando />;
-  if (!sessao) return <TelaLogin />;
+  return (
+    <>
+      {carregandoSessao ? (
+        <TelaCarregando />
+      ) : sessao ? (
+        // Chave por usuário: trocar de conta descarta o estado do dono anterior
+        // em vez de reaproveitá-lo.
+        <Aplicacao key={sessao.user.id} online={online} />
+      ) : (
+        // A faixa acompanha o login de propósito. Sessão expirada com o app
+        // offline não tem como renovar o token, e sem o aviso a tentativa de
+        // entrar pareceria senha errada.
+        <>
+          <FaixaOffline online={online} />
+          <TelaLogin />
+        </>
+      )}
 
-  // Chave por usuário: trocar de conta descarta o estado do dono anterior em
-  // vez de reaproveitá-lo.
-  return <Aplicacao key={sessao.user.id} />;
+      <AvisoAtualizacao />
+    </>
+  );
 }
 
 function TelaCarregando() {
@@ -34,7 +52,7 @@ function TelaCarregando() {
   );
 }
 
-function Aplicacao() {
+function Aplicacao({ online }) {
   const { ano, mes, ehMesCorrente, anterior, proximo, irParaHoje } = usePeriodo();
   const { gastos, totais, carregando, erro, adicionar, recarregar } = useGastos(ano, mes);
   const [toast, setToast] = useState(null);
@@ -43,6 +61,8 @@ function Aplicacao() {
   return (
     <>
       <AppShell>
+        <FaixaOffline online={online} />
+
         <div className="flex items-center justify-between">
           <h1 className="text-xl font-semibold tracking-tight">Meus Gastos</h1>
           <button
@@ -75,6 +95,8 @@ function Aplicacao() {
         )}
 
         <CadastroRapido adicionar={adicionar} onToast={setToast} />
+
+        <BotaoInstalar />
       </AppShell>
 
       <Toast toast={toast} onFechar={fecharToast} />
