@@ -154,7 +154,7 @@ Isso fecha o **RNF-01** do PRD-00, que pedia carregamento rápido em rede móvel
 | Filtro e seleção de mês | §4 | ✅ |
 | Dashboard de resumo mensal | §4 | ✅ |
 | Instalação PWA | §6 (passos 1-2) | ✅ |
-| Desempenho e agilidade | §8 | ⏳ falta o Lighthouse |
+| Desempenho e agilidade | §6.1 | ✅ Lighthouse 99 em desempenho |
 | Persistência em nuvem | §5 | ✅ |
 | Usabilidade mobile-first | §6 (passos 5-8) | ✅ |
 
