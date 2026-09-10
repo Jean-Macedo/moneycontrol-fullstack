@@ -29,7 +29,7 @@ Um aplicativo web progressivo (PWA) mobile-first que permite:
 ### Fora de escopo na V2
 
 - Login social, múltiplos usuários com perfis, compartilhamento.
-- Edição/exclusão de lançamentos passados (avaliar em V3 — ver PRD-03 §Backlog).
+- ~~Edição/exclusão de lançamentos passados (avaliar em V3 — ver PRD-03 §Backlog).~~ **Trazido para o escopo pelo PRD-08**, depois que o uso real mostrou que um valor digitado errado ficava permanente. A imutabilidade era mitigação de segurança para a ausência de login, não princípio de produto — o PRD-07 removeu a ameaça.
 - Orçamentos, metas, alertas, gráficos de série temporal.
 - Exportação para CSV/Excel, anexos de comprovante, câmera/OCR.
 - Multi-moeda, conversão cambial.
@@ -52,13 +52,14 @@ Um aplicativo web progressivo (PWA) mobile-first que permite:
 | 04 | Dashboard mensal e seletor de mês | Total e subtotais corretos por período | 01, 02 |
 | 05 | PWA: instalação, offline e identidade visual | App instalável em tela cheia | 01, 03, 04 |
 | 07 | Autenticação e isolamento de dados | Login por e-mail e senha; RLS por dono | 02, 03, 04 |
+| 08 | Histórico, edição e exclusão | Lista do mês + correção de lançamento | 04, 07 |
 | 06 | Plano de testes e QA de aceite | Suíte automatizada + roteiro manual em device real | 03, 04, 05 |
 
 ### Ordem de execução recomendada
 
 ```
 PRD-01 ──> PRD-02 ──┬──> PRD-03 ──┐
-                    └──> PRD-04 ──┴──> PRD-07 ──> PRD-05 ──> PRD-06
+                    └──> PRD-04 ──┴──> PRD-07 ──> PRD-05 ──> PRD-08 ──> PRD-06
 ```
 
 PRD-03 e PRD-04 podem ser executados em paralelo assim que PRD-02 estiver concluído, desde que ambos consumam a mesma camada de dados definida em PRD-02 §5.
