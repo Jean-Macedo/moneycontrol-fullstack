@@ -104,6 +104,29 @@ Vercel conectado a este repositório, deploy automático a cada push em `main`.
 
 URL de produção: **https://moneycontrol-fullstack.vercel.app**
 
+## PWA
+
+Instalável na tela inicial pelo Chrome Android — a própria interface oferece
+**Instalar na tela inicial** quando o navegador dispara `beforeinstallprompt`.
+Aberto pelo ícone, roda em tela cheia, sem barra de URL.
+
+O app shell é precacheado pelo service worker, então o app **abre offline**. Os
+dados, não: chamadas ao Supabase usam `NetworkOnly`. Um total mensal vindo do
+cache seria um número errado com a mesma cara de um número certo — e, com
+autenticação, o endpoint de auth em cache devolveria sessão fantasma.
+
+Sem conexão, uma faixa avisa que **os lançamentos não estão sendo salvos**. Não
+há fila offline: a decisão está registrada no [PRD-05 §7](docs/prds/PRD-05-pwa-instalacao-e-offline.md),
+e o raciocínio é que um lançamento marcado como salvo que nunca sincroniza é pior
+que um erro explícito.
+
+Os ícones são gerados por [scripts/gerar-icones.mjs](scripts/gerar-icones.mjs) a
+partir de uma definição vetorial única:
+
+```bash
+node scripts/gerar-icones.mjs
+```
+
 ## Documentação
 
 Especificação e PRDs de execução em [docs/prds/](docs/prds/) — comece pelo

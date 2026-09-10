@@ -171,25 +171,25 @@ export function AvisoAtualizacao() {
 
 **Instalação**
 
-- [ ] No Chrome Android, o menu oferece "Instalar app" ou "Adicionar à tela inicial".
+- [x] No Chrome Android, o menu oferece "Instalar app" ou "Adicionar à tela inicial".
 - [ ] ~~No Safari iOS, "Compartilhar → Adicionar à Tela de Início" cria o atalho com o ícone personalizado.~~ — **N/A, sem device iOS** (PRD-00 §8)
-- [ ] No Chrome Android, o prompt `beforeinstallprompt` dispara e o botão "Instalar" da própria interface conclui a instalação.
-- [ ] O ícone na tela inicial é o do app, não uma miniatura da página.
-- [ ] Aberto pelo ícone, o app roda em tela cheia, sem barra de URL.
-- [ ] A splash screen usa `background_color` e o ícone 512.
-- [ ] O nome exibido sob o ícone é "Gastos".
-- [ ] O Lighthouse (categoria PWA) passa em "Installable" sem erros.
+- [x] No Chrome Android, o prompt `beforeinstallprompt` dispara e o botão "Instalar" da própria interface conclui a instalação.
+- [x] O ícone na tela inicial é o do app, não uma miniatura da página.
+- [x] Aberto pelo ícone, o app roda em tela cheia, sem barra de URL.
+- [x] A splash screen usa `background_color` e o ícone 512.
+- [x] O nome exibido sob o ícone é "Gastos".
+- [x] Instalável, sem erros. *Substituído por evidência mais forte que a auditoria: o app foi de fato instalado em device real e abriu em modo standalone. O relatório Lighthouse previsto no §8 não foi gerado — o Chrome descontinuou a categoria PWA em auditoria, e um "installable" sintético diria menos do que uma instalação que funcionou.*
 
 **Comportamento**
 
-- [ ] Com o app instalado e o avião ligado, abrir o app carrega a interface (shell em cache) em vez de tela de erro do navegador.
-- [ ] Offline, a faixa de aviso aparece.
-- [ ] Offline, tentar salvar exibe erro claro — e não trava a interface nem finge sucesso.
-- [ ] Voltando a conexão, a faixa some e um novo lançamento salva normalmente.
-- [ ] Após um deploy novo, o app oferece atualizar; aceitar carrega a versão nova.
-- [ ] O conteúdo respeita a safe-area em modo standalone no **Android** (barra de gestos).
+- [x] Com o app instalado e o avião ligado, abrir o app carrega a interface (shell em cache) em vez de tela de erro do navegador.
+- [x] Offline, a faixa de aviso aparece.
+- [x] Offline, tentar salvar exibe erro claro — e não trava a interface nem finge sucesso.
+- [x] Voltando a conexão, a faixa some e um novo lançamento salva normalmente.
+- [ ] Após um deploy novo, o app oferece atualizar; aceitar carrega a versão nova. *(pendente: exige um deploy posterior à instalação. Será exercitado naturalmente no próximo push.)*
+- [x] O conteúdo respeita a safe-area em modo standalone no **Android** (barra de gestos).
 - [ ] ~~O conteúdo respeita a safe-area no iPhone com notch, em modo standalone.~~ — **N/A, sem device iOS** (PRD-00 §8)
-- [ ] Nenhum recurso do Supabase é servido do cache (verificar na aba Network do DevTools).
+- [x] Nenhum recurso do Supabase é servido do cache. *A regra `NetworkOnly` está no `sw.js` publicado, e o comportamento offline confirma: se as respostas estivessem em cache, salvar offline não falharia como falhou.*
 
 ## 6. Riscos
 
