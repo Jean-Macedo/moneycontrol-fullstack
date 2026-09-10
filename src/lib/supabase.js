@@ -33,5 +33,11 @@ function normalizarUrl(bruta) {
 }
 
 export const supabase = createClient(normalizarUrl(url), anonKey, {
-  auth: { persistSession: false },
+  auth: {
+    // Sem persistência o usuário reloga a cada abertura, o que inviabiliza o
+    // uso como app instalado (PRD-05).
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: false, // não usamos magic link nem OAuth
+  },
 });

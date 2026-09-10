@@ -131,7 +131,19 @@ commit;
 
 ### 6.3. Desabilitar cadastro público
 
-Painel → **Authentication → Providers → Email** → desligar **Enable sign ups**.
+Painel → **Authentication → General configuration** → desligar **"Allow new users to sign up"**
+(atalho: `https://supabase.com/dashboard/project/_/auth`).
+
+> O caminho antigo era *Providers → Email → Enable sign ups*. O Supabase moveu a
+> opção e trocou o rótulo; a documentação atual descreve o toggle como *"Users
+> will be able to sign up. If this config is disabled, only existing users can
+> sign in."*
+
+Verificação sem sair do terminal — deve devolver `signup_disabled`:
+
+```bash
+curl -s -X POST -H "apikey: $VITE_SUPABASE_ANON_KEY" -H "Content-Type: application/json"   -d '{"email":"teste@example.com","password":"SenhaDeTeste123!"}'   "$VITE_SUPABASE_URL/auth/v1/signup"
+```
 
 Com RLS por dono, um estranho que se cadastrasse veria um app vazio — inofensivo do ponto de vista dos seus dados, mas consumiria a cota do projeto e encheria a tabela de usuários. Conta única, cadastro fechado.
 
