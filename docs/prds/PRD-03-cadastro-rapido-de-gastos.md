@@ -275,22 +275,22 @@ Componente simples, sem dependência externa: caixa fixa acima da área de cadas
 
 **Funcionais**
 
-- [ ] Ao abrir o app no celular, o campo de valor já está focado e o teclado numérico aparece.
-- [ ] Digitar `23,90` e tocar em **Metrô** salva o gasto e limpa o campo.
-- [ ] Com o campo vazio, os três botões estão desabilitados e não disparam nada.
-- [ ] Com valor inválido (`abc`, `0`, `,`), os botões continuam desabilitados.
-- [ ] Todos os casos da tabela §5 se comportam como especificado.
-- [ ] Após salvar, o total do mês e o subtotal da categoria aumentam imediatamente, sem recarregar a página.
-- [ ] Tocar duas vezes rápido na mesma categoria grava **um** registro, não dois.
-- [ ] Falha de rede exibe toast de erro e o valor digitado **não** se perde.
-- [ ] O foco volta para o campo de valor após salvar.
+- [x] O campo de valor recebe foco ao montar. *(teste de componente; o teclado numérico em si depende do device — ver abaixo)*
+- [x] Digitar `23,90` e tocar em **Metrô** salva o gasto e limpa o campo. *(teste de componente: `adicionar` recebe `{ valor: 23.9, categoria: 'Metrô' }`)*
+- [x] Com o campo vazio, os três botões estão desabilitados e não disparam nada.
+- [x] Com valor inválido (`abc`, `0`, `,`), os botões continuam desabilitados.
+- [x] Todos os casos da tabela §5 se comportam como especificado. *(14 casos da tabela + 7 de borda)*
+- [ ] Após salvar, o total do mês e o subtotal da categoria aumentam imediatamente, sem recarregar a página. *(a inserção otimista está implementada e coberta por teste no hook; falta a passagem real contra o banco)*
+- [x] Tocar duas vezes rápido na mesma categoria grava **um** registro, não dois. *(segundo clique durante o salvamento não chama `adicionar`)*
+- [x] Falha de rede exibe toast de erro e o valor digitado **não** se perde.
+- [x] O foco volta para o campo de valor após salvar.
 
 **Não funcionais**
 
-- [ ] Botões com pelo menos 56 px de altura (implementação usa 96 px).
-- [ ] Fluxo completo executável com o polegar de uma mão só em tela de 6".
-- [ ] Nenhum layout shift quando o toast aparece.
-- [ ] `aria-label` presente em campo e botões; leitor de tela anuncia o toast.
+- [x] Botões com pelo menos 56 px de altura. *(`h-24` = 96 px)*
+- [ ] Fluxo completo executável com o polegar de uma mão só em tela de 6". *(exige device real)*
+- [x] Nenhum layout shift quando o toast aparece. *(o toast é `fixed`, fora do fluxo do documento)*
+- [x] `aria-label` presente em campo e botões; o toast tem `role="status"` e `aria-live="polite"`. *(o anúncio pelo leitor de tela em si não foi exercitado)*
 
 ## 8. Riscos
 

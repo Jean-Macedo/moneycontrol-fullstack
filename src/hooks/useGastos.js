@@ -39,17 +39,59 @@ export function useGastos(ano, mes) {
   const erro = atual ? estado.erro : null;
   const carregando = !atual;
 
+  /**
+   * Insere de forma otimista e desfaz se o banco recusar.
+   *
+   * A linha provisória aparece antes da ida à rede, para o toque na categoria
+   * parecer instantâneo. Quando a resposta chega, ela é substituída pela linha
+   * real — e a decisão de exibir usa a data que o **banco** atribuiu, não a que
+   * chutamos aqui: perto da meia-noite as duas divergem.
+   */
   const adicionar = useCallback(
     async ({ valor, categoria }) => {
-      const novo = await inserirGasto({ valor, categoria });
-      // Só entra na lista visível se pertencer ao mês em exibição.
-      const [a, m] = novo.data.split('-').map(Number);
-      if (a === ano && m === mes) {
+      const provisorio = {
+        id: `temp-${crypto.randomUUID()}`,
+        valor,
+        categoria,
+        data: new Date().toLocaleDateString('en-CA'), // YYYY-MM-DD local
+        created_at: new Date().toISOString(),
+        pendente: true,
+      };
+
+      const noMesExibido = (iso) => {
+        const [a, m] = iso.split('-').map(Number);
+        return a === ano && m === mes;
+      };
+
+      if (noMesExibido(provisorio.data)) {
         setEstado((prev) =>
-          prev.chave === chave ? { ...prev, gastos: [novo, ...prev.gastos] } : prev
+          prev.chave === chave
+            ? { ...prev, gastos: [provisorio, ...prev.gastos] }
+            : prev
         );
       }
-      return novo;
+
+      try {
+        const salvo = await inserirGasto({ valor, categoria });
+        setEstado((prev) => {
+          if (prev.chave !== chave) return prev;
+          const semProvisorio = prev.gastos.filter((g) => g.id !== provisorio.id);
+          return {
+            ...prev,
+            gastos: noMesExibido(salvo.data)
+              ? [salvo, ...semProvisorio]
+              : semProvisorio,
+          };
+        });
+        return salvo;
+      } catch (e) {
+        setEstado((prev) =>
+          prev.chave === chave
+            ? { ...prev, gastos: prev.gastos.filter((g) => g.id !== provisorio.id) }
+            : prev
+        );
+        throw e;
+      }
     },
     [ano, mes, chave]
   );
