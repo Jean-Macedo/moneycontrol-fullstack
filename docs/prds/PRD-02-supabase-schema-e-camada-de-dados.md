@@ -241,7 +241,7 @@ export function useGastos(ano, mes) {
 - [x] `insert` com `valor = 2000000` é **rejeitado** pelo teto. *(HTTP 400)*
 - [x] `insert` sem informar `data` grava a data de hoje no fuso de São Paulo. *(linha gravada em 2026-09-04)*
 - [x] `update` via anon key é **negado** por ausência de política. *(PATCH no-op em linha legível retorna `[]` com `Prefer: return=representation` — prova de bloqueio, não de filtro vazio)*
-- [ ] `delete` via anon key é negado. *(inferido: mesma ausência de política que barra o update; não exercitado contra linha real para não arriscar dados)*
+- [x] `delete` via anon key é negado. *(era inferência; virou verificação depois da migração `005` do PRD-08, que removeu o privilégio de delete do papel `anon` — a recusa passou a ser `42501` explícito, sem precisar arriscar nenhuma linha real)*
 - [x] `listarGastosDoMes` traz o último dia do mês e **não** traz o primeiro do seguinte. *(agosto/2026: 3 linhas, R$ 54,90, sem o lançamento de 01/09)*
 - [ ] Um gasto inserido às 22h30 (horário de Brasília) do dia 31 fica registrado no dia 31, não no dia 1º. *(não exercitado — exige inserir no horário real da virada; o default `at time zone 'America/Sao_Paulo'` está no schema e a gravação de hoje caiu na data local correta)*
 - [x] `valor` chega ao componente React como `number`, não como string. *(verificado em teste de integração contra o banco)*
