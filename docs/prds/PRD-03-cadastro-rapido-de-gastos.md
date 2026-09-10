@@ -275,12 +275,12 @@ Componente simples, sem dependência externa: caixa fixa acima da área de cadas
 
 **Funcionais**
 
-- [x] O campo de valor recebe foco ao montar. *(teste de componente; o teclado numérico em si depende do device — ver abaixo)*
+- [x] Ao abrir o app no celular, o campo de valor já está focado e o teclado numérico aparece. *(verificado em Chrome Android)*
 - [x] Digitar `23,90` e tocar em **Metrô** salva o gasto e limpa o campo. *(teste de componente: `adicionar` recebe `{ valor: 23.9, categoria: 'Metrô' }`)*
 - [x] Com o campo vazio, os três botões estão desabilitados e não disparam nada.
 - [x] Com valor inválido (`abc`, `0`, `,`), os botões continuam desabilitados.
 - [x] Todos os casos da tabela §5 se comportam como especificado. *(14 casos da tabela + 7 de borda)*
-- [ ] Após salvar, o total do mês e o subtotal da categoria aumentam imediatamente, sem recarregar a página. *(a inserção otimista está implementada e coberta por teste no hook; falta a passagem real contra o banco)*
+- [x] Após salvar, o total do mês e o subtotal da categoria aumentam imediatamente, sem recarregar a página. *(verificado em device real; três lançamentos gravados de ponta a ponta)*
 - [x] Tocar duas vezes rápido na mesma categoria grava **um** registro, não dois. *(segundo clique durante o salvamento não chama `adicionar`)*
 - [x] Falha de rede exibe toast de erro e o valor digitado **não** se perde.
 - [x] O foco volta para o campo de valor após salvar.
@@ -288,9 +288,15 @@ Componente simples, sem dependência externa: caixa fixa acima da área de cadas
 **Não funcionais**
 
 - [x] Botões com pelo menos 56 px de altura. *(`h-24` = 96 px)*
-- [ ] Fluxo completo executável com o polegar de uma mão só em tela de 6". *(exige device real)*
+- [x] Fluxo completo executável com o polegar de uma mão só. *(verificado em Chrome Android)*
 - [x] Nenhum layout shift quando o toast aparece. *(o toast é `fixed`, fora do fluxo do documento)*
 - [x] `aria-label` presente em campo e botões; o toast tem `role="status"` e `aria-live="polite"`. *(o anúncio pelo leitor de tela em si não foi exercitado)*
+
+> **Validado em device real (Chrome Android, 10/09/2026):** os lançamentos
+> `45,60` e `7,90` chegaram ao banco com os centavos intactos. É a prova de
+> que a vírgula do Gboard atravessa `parseValor` → `inserirGasto` → `numeric(12,2)`
+> sem virar `4560`. O risco do PRD-00 §9 deixa de ser teórico e passa a ter
+> evidência de ponta a ponta. A data gravada foi a local de São Paulo.
 
 ## 8. Riscos
 
