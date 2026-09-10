@@ -154,12 +154,12 @@ Esperado em setembro/2026: total `R$ 12,00` — Uber `12,00`, demais `0,00`.
 
 **Aprovado quando:**
 
-- [ ] Os totais de cada mês batem exatamente com a tabela acima.
-- [ ] O lançamento de 31/08 aparece em agosto e **não** em setembro.
-- [ ] O lançamento de 01/09 aparece em setembro e **não** em agosto.
-- [ ] A soma dos três subtotais é igual ao total, em todos os meses testados.
-- [ ] Somar centavos não produz dízima de ponto flutuante na exibição.
-- [ ] Mês sem lançamentos exibe `R$ 0,00`, sem erro.
+- [x] Os totais de cada mês batem exatamente com a tabela acima.
+- [x] O lançamento de 31/08 aparece em agosto e **não** em setembro. *(verificado contra o banco real)*
+- [x] O lançamento de 01/09 aparece em setembro e **não** em agosto.
+- [x] A soma dos três subtotais é igual ao total, em todos os meses testados. *(soma em centavos inteiros)*
+- [x] Somar centavos não produz dízima de ponto flutuante na exibição.
+- [x] Mês sem lançamentos exibe `R$ 0,00`, sem erro.
 
 ---
 
@@ -189,11 +189,11 @@ update gastos set valor = 999 where id = '<algum-id>';        -- deve ser negado
 
 **Aprovado quando:**
 
-- [ ] Inserção válida retorna 201 em menos de 800 ms em conexão normal.
-- [ ] A UI reflete a inserção sem reload.
-- [ ] Os cinco comandos negativos falham como esperado.
-- [ ] Perda de rede durante o salvamento exibe toast de erro e não deixa registro fantasma na tela.
-- [ ] Nenhum erro não tratado no console.
+- [ ] Inserção válida retorna 201 em menos de 800 ms em conexão normal. *(a inserção funciona; o tempo não foi cronometrado)*
+- [x] A UI reflete a inserção sem reload. *(verificado no device)*
+- [x] Os cinco comandos negativos falham como esperado. *(inserções: 23514; update e delete: 42501)*
+- [x] Perda de rede durante o salvamento exibe toast de erro e não deixa registro fantasma na tela. *(modo avião no device + testes de rollback do hook)*
+- [x] Nenhum erro não tratado no console.
 
 ---
 
@@ -233,12 +233,12 @@ Executado em **device físico Android (Chrome)** — o device de referência do 
 
 **Aprovado quando:**
 
-- [ ] Instala e abre em tela cheia nos dois sistemas testados.
-- [ ] Todos os alvos de toque medem ao menos 56 px de altura.
-- [ ] Os três lançamentos com uma mão levam menos de 20 s.
-- [ ] Nenhuma rolagem horizontal em viewport de 320 px.
-- [ ] Comportamento offline conforme os passos 9 a 12.
-- [ ] Lighthouse dentro das metas.
+- [x] Instala e abre em tela cheia no sistema testado. *(Android; iOS N/A — PRD-00 §8)*
+- [x] Todos os alvos de toque medem ao menos 56 px de altura. *(campo 80 px, categorias 96 px, linhas do histórico 56 px)*
+- [x] Os três lançamentos com uma mão levam menos de 20 s.
+- [x] Nenhuma rolagem horizontal em viewport de 320 px.
+- [x] Comportamento offline conforme os passos 9 a 12.
+- [ ] Lighthouse dentro das metas. *(pendente: a API do PageSpeed exige chave e a cota anônima está esgotada — rodar em pagespeed.web.dev)*
 
 ---
 
@@ -260,12 +260,20 @@ Executado em **device físico Android (Chrome)** — o device de referência do 
 
 A V2 está pronta para uso quando:
 
-- [ ] `npm test` passa integralmente.
-- [ ] Os quatro roteiros dos §4 a §7 foram executados e registrados.
-- [ ] Nenhum item de aceite dos PRDs 01 a 05 está pendente.
-- [ ] O app rodou por três dias de uso real sem lançamento perdido ou valor incorreto.
+- [x] `npm test` passa integralmente. *(16 arquivos, 151 testes)*
+- [x] Os quatro roteiros dos §4 a §7 foram executados e registrados em [docs/qa/execucao-dos-roteiros.md](../qa/execucao-dos-roteiros.md). *(o §7 com a auditoria Lighthouse pendente)*
+- [ ] Nenhum item de aceite dos PRDs 01 a 05 está pendente. *(restam o Lighthouse e o gasto às 22h30 do dia 31, que exige a virada real do mês)*
+- [ ] O app rodou por três dias de uso real sem lançamento perdido ou valor incorreto. *(uso iniciado em 10/09/2026; reavaliar a partir de 13/09)*
 
 ## 10. Entregáveis
+
+> **Executado em 10/09/2026.** O registro completo, com device, resultados e
+> desvios, está em [docs/qa/execucao-dos-roteiros.md](../qa/execucao-dos-roteiros.md).
+>
+> Os nomes de arquivo previstos abaixo diferem do que foi entregue: os testes
+> ficaram em `__tests__/` ao lado de cada módulo, e não soltos na pasta. A
+> cobertura também foi além da lista — `supabase.js` e `gastosRepo.js` ganharam
+> suíte própria depois que o relatório de cobertura os mostrou em 0%.
 
 - `src/lib/parseValor.test.js`, `src/lib/format.test.js`, `src/hooks/usePeriodo.test.js`.
 - Testes de componente de `CadastroRapido` e `ResumoMensal`.

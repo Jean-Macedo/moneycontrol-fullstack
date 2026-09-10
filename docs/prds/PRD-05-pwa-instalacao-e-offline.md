@@ -186,7 +186,7 @@ export function AvisoAtualizacao() {
 - [x] Offline, a faixa de aviso aparece.
 - [x] Offline, tentar salvar exibe erro claro — e não trava a interface nem finge sucesso.
 - [x] Voltando a conexão, a faixa some e um novo lançamento salva normalmente.
-- [ ] Após um deploy novo, o app oferece atualizar; aceitar carrega a versão nova. *(pendente: exige um deploy posterior à instalação. Será exercitado naturalmente no próximo push.)*
+- [x] Após um deploy novo, o app oferece atualizar; aceitar carrega a versão nova. *(verificado no device após o deploy do PRD-08)*
 - [x] O conteúdo respeita a safe-area em modo standalone no **Android** (barra de gestos).
 - [ ] ~~O conteúdo respeita a safe-area no iPhone com notch, em modo standalone.~~ — **N/A, sem device iOS** (PRD-00 §8)
 - [x] Nenhum recurso do Supabase é servido do cache. *A regra `NetworkOnly` está no `sw.js` publicado, e o comportamento offline confirma: se as respostas estivessem em cache, salvar offline não falharia como falhou.*

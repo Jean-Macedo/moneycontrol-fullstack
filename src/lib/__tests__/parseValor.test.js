@@ -16,6 +16,10 @@ describe('parseValor — tabela do PRD-03 §5', () => {
     ['', null, 'vazio rejeitado'],
     [',', null, 'só o separador é rejeitado'],
     ['1e5', null, 'notação científica não aceita'],
+    ['   ', null, 'só espaços'],
+    ['12abc', null, 'número seguido de letras'],
+    ['0,00', null, 'zero com centavos'],
+    ['.', null, 'só o ponto'],
     ['9999999', null, 'acima do teto'],
   ];
 

@@ -229,7 +229,7 @@ export default function App() {
 - [x] Os três cards exibem os subtotais de Uber, Lazer e Metrô do período selecionado.
 - [x] A soma dos três subtotais é exatamente igual ao total exibido. *(garantido por soma em centavos inteiros; teste com 10,07 + 20,11 + 0,03 + 5,99)*
 - [x] Os percentuais somam 100% (ou 0% quando não há gastos). *(método do maior resto; 200 casos aleatórios no teste)*
-- [ ] Tocar em "‹" volta um mês e os valores mudam para o período correto. *(lógica coberta por teste; o toque em si exige device)*
+- [x] Tocar em "‹" volta um mês e os valores mudam para o período correto. *(verificado no device em 10/09/2026)*
 - [x] Em janeiro, "‹" leva a dezembro do **ano anterior**.
 - [x] Em dezembro, "›" leva a janeiro do **ano seguinte** — quando não for mês futuro.
 - [x] O botão "próximo" está desabilitado no mês corrente.

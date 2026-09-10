@@ -36,3 +36,6 @@ dist-ssr
 # que precisa ficar no repositorio — dai a negacao explicita.
 .env*
 !.env.example
+
+# Cobertura de testes
+coverage
