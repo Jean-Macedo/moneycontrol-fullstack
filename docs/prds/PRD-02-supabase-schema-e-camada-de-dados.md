@@ -89,6 +89,8 @@ create policy "anon pode inserir gastos"
 
 > **Armadilha de configuração:** o `VITE_SUPABASE_URL` deve ser **apenas a origem** — `https://<ref>.supabase.co`, sem `/rest/v1` e sem barra final. O cliente Supabase acrescenta o caminho sozinho; colar o endpoint REST completo produz `/rest/v1/rest/v1/...` e todas as chamadas falham com `PGRST125 — Invalid path specified in request URL`, que não sugere em nada a causa real.
 
+> **[SUPERADO pelo PRD-07 em 10/09/2026]** O acesso anônimo descrito abaixo não existe mais: as políticas de `anon` foram substituídas por políticas por dono. O texto fica como registro da decisão original e do porquê ela deixou de valer.
+>
 > **Limitação aceita e registrada:** com essas políticas, quem obtiver a URL do app consegue ler e inserir gastos. É aceitável para um app pessoal não divulgado. **Se o app for compartilhado ou publicado**, executar antes a migração para autenticação descrita em §8.
 
 ## 5. Camada de acesso a dados

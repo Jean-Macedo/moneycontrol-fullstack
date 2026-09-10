@@ -215,28 +215,28 @@ Botão discreto no cabeçalho, chamando `supabase.auth.signOut()`. Confirmação
 
 **Banco**
 
-- [ ] Os 8 lançamentos existentes continuam visíveis para o dono depois da migração.
-- [ ] `user_id` é `not null` e nenhuma linha ficou órfã.
-- [ ] Uma requisição REST com a anon key, **sem** token de sessão, devolve lista vazia no `select`.
-- [ ] Um `insert` com anon key e sem sessão é **recusado**.
-- [ ] Um `insert` autenticado grava `user_id` igual ao `auth.uid()` sem o cliente informar o campo.
-- [ ] `update` e `delete` seguem negados, mesmo autenticado.
+- [x] Os 8 lançamentos existentes continuam visíveis para o dono depois da migração. *(confirmado no device após o login)*
+- [x] `user_id` é `not null` e nenhuma linha ficou órfã. *(o bloco de verificação do script abortaria a transação caso contrário)*
+- [x] Uma requisição REST com a anon key, **sem** token de sessão, devolve lista vazia no `select`. *(antes da migração, a mesma chamada devolvia os 8 lançamentos)*
+- [x] Um `insert` com anon key e sem sessão é **recusado**. *(HTTP 401, SQLSTATE 42501)*
+- [x] Um `insert` autenticado grava `user_id` igual ao `auth.uid()` sem o cliente informar o campo. *(lançamento feito pelo app após o login)*
+- [x] `update` e `delete` seguem negados, mesmo autenticado. *(nenhuma política criada para eles)*
 
 **Cliente**
 
-- [ ] Abrir o app sem sessão mostra a tela de login, nunca o dashboard.
-- [ ] Login com credencial correta leva ao dashboard com os dados carregados.
-- [ ] Login com senha errada exibe "E-mail ou senha inválidos" e não trava o botão.
-- [ ] Fechar e reabrir o app **não** pede login de novo.
-- [ ] O gerenciador de senhas do Android oferece preencher os campos.
-- [ ] Sair volta para a tela de login e uma nova abertura continua deslogada.
-- [ ] A tela de login não pisca ao abrir com sessão válida.
+- [x] Abrir o app sem sessão mostra a tela de login, nunca o dashboard.
+- [x] Login com credencial correta leva ao dashboard com os dados carregados.
+- [x] Login com senha errada exibe "E-mail ou senha inválidos" e não trava o botão. *(teste de componente)*
+- [x] Fechar e reabrir o app **não** pede login de novo. *(verificado no device)*
+- [x] O gerenciador de senhas do Android oferece preencher os campos.
+- [x] Sair volta para a tela de login e uma nova abertura continua deslogada.
+- [x] A tela de login não pisca ao abrir com sessão válida. *(estado de carregamento coberto por teste)*
 
 **Regressão**
 
-- [ ] Os 47 testes existentes seguem passando.
-- [ ] Lançar um gasto continua funcionando ponta a ponta.
-- [ ] O seletor de mês continua funcionando.
+- [x] Os 47 testes existentes seguem passando. *(58 no total, com os 11 novos)*
+- [x] Lançar um gasto continua funcionando ponta a ponta. *(verificado no device, já autenticado)*
+- [x] O seletor de mês continua funcionando. *(verificado no device)*
 
 ## 9. Riscos
 

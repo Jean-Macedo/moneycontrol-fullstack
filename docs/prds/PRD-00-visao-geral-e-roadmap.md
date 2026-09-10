@@ -103,7 +103,7 @@ Um PRD só é considerado concluído quando:
 | Risco | Impacto | Mitigação | PRD |
 |---|---|---|---|
 | Deslocamento de fuso faz gasto do dia 1 cair no mês anterior | Totais mensais errados | Armazenar `data` como `date` local e filtrar por intervalo local | 02, 04 |
-| Chave anônima do Supabase exposta no bundle | Escrita/leitura indevida | RLS obrigatório; anon key só com as políticas mínimas. **Endereçado de vez pelo PRD-07**, que troca acesso anônimo por autenticação por dono | 02, 07 |
+| Chave anônima do Supabase exposta no bundle | Escrita/leitura indevida | ✅ **Resolvido em 10/09/2026 pelo PRD-07:** sem sessão, a anon key não lê nem escreve nada | 02, 07 |
 | Service worker servindo bundle velho após deploy | Usuário vê versão antiga | `autoUpdate` + prompt de recarregar | 05 |
 | Vírgula decimal do teclado brasileiro | Valor salvo errado (12,50 → 1250) | Normalização única e centralizada, com testes | 03 |
 

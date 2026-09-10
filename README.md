@@ -67,21 +67,25 @@ Tabela única `gastos`, criada por [supabase/migrations/001_gastos.sql](supabase
 A integridade é imposta pelo **banco**, não só pela interface: `CHECK` restringe
 a categoria às três permitidas, exige valor positivo e impõe um teto.
 
-**RLS está ativo.** O modelo de acesso da V2, deliberado:
+**RLS está ativo e o acesso é autenticado** ([003_auth.sql](supabase/migrations/003_auth.sql)).
+Cada lançamento tem dono, e o banco compara `auth.uid()` com `user_id`:
 
-| Operação | Permitida ao `anon`? |
-|---|---|
-| `select` | sim |
-| `insert` | sim |
-| `update` | **não** — sem política |
-| `delete` | **não** — sem política |
+| Operação | `anon` (sem sessão) | Dono autenticado |
+|---|---|---|
+| `select` | **não** — devolve vazio | sim, só o que é seu |
+| `insert` | **não** — recusado | sim |
+| `update` | **não** — sem política | **não** — sem política |
+| `delete` | **não** — sem política | **não** — sem política |
 
-Lançamentos são imutáveis. A anon key vai para o bundle do frontend e é pública
-por natureza — é o RLS que sustenta a segurança, não o segredo da chave.
+Lançamentos são imutáveis, por decisão do PRD-02 §4. A anon key vai para o bundle
+e é pública por natureza — é o RLS que sustenta a segurança, não o segredo da
+chave. Sem uma sessão válida, ela não abre nada.
 
-> **Limitação conhecida:** sem autenticação, quem tiver a URL do app consegue ler
-> e inserir gastos. Aceitável para uso pessoal; **antes de divulgar o app**, migrar
-> para autenticação conforme PRD-02 §8.
+O `user_id` tem `default auth.uid()`, então o cliente nunca envia esse campo: o
+banco o preenche a partir da sessão e o `WITH CHECK` confirma que bate.
+
+Conta única, criada manualmente no painel. **Cadastro público desabilitado** —
+uma tentativa de `signup` devolve `signup_disabled`.
 
 ### Configurando o `VITE_SUPABASE_URL`
 
