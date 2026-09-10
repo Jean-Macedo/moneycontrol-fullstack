@@ -174,10 +174,10 @@ Exclusão é irreversível — não há política que traga a linha de volta. Um
 - [x] `update` autenticado de `valor` e `categoria` na própria linha funciona. *(verificado no device)*
 - [ ] `update` de `data` é **recusado** (privilégio de coluna). *(pendente: o app não oferece essa alteração, então só a consulta a `information_schema.column_privileges` confirma)*
 - [ ] `update` tentando trocar o `user_id` é **recusado**.
-- [ ] `updated_at` é preenchido no update e permanece nulo em linha nunca editada. *(pendente: sem interface que exiba a coluna, exige consulta no SQL Editor)*
+- [x] `updated_at` é preenchido no update e permanece nulo em linha nunca editada. *(9 lançamentos, 2 com `updated_at` — exatamente os dois corrigidos no device)*
 - [x] `delete` autenticado da própria linha funciona. *(verificado no device)*
 - [x] `update` e `delete` com anon key, sem sessão, seguem **recusados**. *(update: 42501 no privilégio; delete: barrado pelo RLS)*
-- [ ] Depois do `005`, o `delete` anônimo falha com `42501` explícito em vez de devolver lista vazia. *(o `005` ainda não foi executado)*
+- [x] Depois do `005`, o `delete` anônimo falha com `42501` explícito em vez de devolver lista vazia.
 
 **Interface**
 
