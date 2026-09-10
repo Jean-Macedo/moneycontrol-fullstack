@@ -74,12 +74,21 @@ Cada lançamento tem dono, e o banco compara `auth.uid()` com `user_id`:
 |---|---|---|
 | `select` | **não** — devolve vazio | sim, só o que é seu |
 | `insert` | **não** — recusado | sim |
-| `update` | **não** — sem política | **não** — sem política |
-| `delete` | **não** — sem política | **não** — sem política |
+| `update` | **não** — sem política | sim, só `valor` e `categoria` |
+| `delete` | **não** — sem política | sim, só o que é seu |
 
-Lançamentos são imutáveis, por decisão do PRD-02 §4. A anon key vai para o bundle
-e é pública por natureza — é o RLS que sustenta a segurança, não o segredo da
-chave. Sem uma sessão válida, ela não abre nada.
+A anon key vai para o bundle e é pública por natureza — é o RLS que sustenta a
+segurança, não o segredo da chave. Sem uma sessão válida, ela não abre nada.
+
+Edição e exclusão chegaram no [004_edicao.sql](supabase/migrations/004_edicao.sql).
+Até então os lançamentos eram imutáveis, mas isso nunca foi princípio de produto:
+era mitigação para a ausência de login, quando uma política de `delete`
+significaria que qualquer um com a URL apagaria a base. O PRD-07 removeu a ameaça.
+
+**RLS decide quais linhas; privilégio de coluna decide quais campos.** Só `valor`
+e `categoria` são graváveis num update — sem essa restrição, o cliente poderia
+reescrever `data` e mover um gasto de mês em silêncio, desmontando os totais. Um
+gatilho restaura as colunas protegidas como segunda linha de defesa.
 
 O `user_id` tem `default auth.uid()`, então o cliente nunca envia esse campo: o
 banco o preenche a partir da sessão e o `WITH CHECK` confirma que bate.

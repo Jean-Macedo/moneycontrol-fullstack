@@ -31,3 +31,22 @@ export async function inserirGasto({ valor, categoria }) {
   if (error) throw error;
   return normalizar(data);
 }
+
+export async function atualizarGasto({ id, valor, categoria }) {
+  const { data, error } = await supabase
+    .from('gastos')
+    .update({ valor, categoria }) // data e user_id são barrados pelo banco
+    .eq('id', id)
+    .select(COLUNAS)
+    .single();
+
+  if (error) throw error;
+  return normalizar(data);
+}
+
+// Não devolve representação: pedir a linha de volta depois de apagá-la só
+// complicaria o tratamento de erro sem informar nada útil.
+export async function excluirGasto(id) {
+  const { error } = await supabase.from('gastos').delete().eq('id', id);
+  if (error) throw error;
+}

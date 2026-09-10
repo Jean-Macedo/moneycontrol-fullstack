@@ -5,6 +5,8 @@ import SeletorMes from './components/dashboard/SeletorMes';
 import ResumoMensal from './components/dashboard/ResumoMensal';
 import ErroCarregamento from './components/dashboard/ErroCarregamento';
 import CadastroRapido from './components/lancamento/CadastroRapido';
+import ListaLancamentos from './components/historico/ListaLancamentos';
+import EdicaoGasto from './components/historico/EdicaoGasto';
 import AvisoAtualizacao from './components/ui/AvisoAtualizacao';
 import BotaoInstalar from './components/ui/BotaoInstalar';
 import FaixaOffline from './components/ui/FaixaOffline';
@@ -54,8 +56,10 @@ function TelaCarregando() {
 
 function Aplicacao({ online }) {
   const { ano, mes, ehMesCorrente, anterior, proximo, irParaHoje } = usePeriodo();
-  const { gastos, totais, carregando, erro, adicionar, recarregar } = useGastos(ano, mes);
+  const { gastos, totais, carregando, erro, adicionar, editar, excluir, recarregar } =
+    useGastos(ano, mes);
   const [toast, setToast] = useState(null);
+  const [emEdicao, setEmEdicao] = useState(null);
   const fecharToast = useCallback(() => setToast(null), []);
 
   return (
@@ -96,8 +100,19 @@ function Aplicacao({ online }) {
 
         <CadastroRapido adicionar={adicionar} onToast={setToast} />
 
+        <ListaLancamentos gastos={gastos} onSelecionar={setEmEdicao} />
+
         <BotaoInstalar />
       </AppShell>
+
+      {emEdicao && (
+        <EdicaoGasto
+          gasto={emEdicao}
+          onSalvar={editar}
+          onExcluir={excluir}
+          onFechar={() => setEmEdicao(null)}
+        />
+      )}
 
       <Toast toast={toast} onFechar={fecharToast} />
     </>

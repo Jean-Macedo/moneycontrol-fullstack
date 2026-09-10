@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { listarGastosDoMes, inserirGasto } from '../lib/gastosRepo';
+import {
+  listarGastosDoMes,
+  inserirGasto,
+  atualizarGasto,
+  excluirGasto,
+} from '../lib/gastosRepo';
 import { CATEGORIA_IDS } from '../constants/categorias';
 
 const VAZIO = [];
@@ -96,6 +101,79 @@ export function useGastos(ano, mes) {
     [ano, mes, chave]
   );
 
+  /**
+   * Corrige valor ou categoria, otimista, com reversão em falha.
+   *
+   * A resposta do banco substitui a linha inteira em vez de só confirmar: o
+   * gatilho preenche `updated_at`, e reaproveitar o objeto local perderia isso.
+   */
+  const editar = useCallback(
+    async ({ id, valor, categoria }) => {
+      let anterior = null;
+
+      setEstado((prev) => {
+        if (prev.chave !== chave) return prev;
+        anterior = prev.gastos.find((g) => g.id === id) ?? null;
+        return {
+          ...prev,
+          gastos: prev.gastos.map((g) =>
+            g.id === id ? { ...g, valor, categoria, pendente: true } : g
+          ),
+        };
+      });
+
+      try {
+        const salvo = await atualizarGasto({ id, valor, categoria });
+        setEstado((prev) =>
+          prev.chave === chave
+            ? { ...prev, gastos: prev.gastos.map((g) => (g.id === id ? salvo : g)) }
+            : prev
+        );
+        return salvo;
+      } catch (e) {
+        setEstado((prev) =>
+          prev.chave === chave && anterior
+            ? { ...prev, gastos: prev.gastos.map((g) => (g.id === id ? anterior : g)) }
+            : prev
+        );
+        throw e;
+      }
+    },
+    [chave]
+  );
+
+  /**
+   * Remove o lançamento, otimista. Em falha, a linha volta para a posição
+   * original — reinseri-la no topo faria parecer um lançamento novo.
+   */
+  const excluir = useCallback(
+    async (id) => {
+      let anterior = null;
+      let posicao = -1;
+
+      setEstado((prev) => {
+        if (prev.chave !== chave) return prev;
+        posicao = prev.gastos.findIndex((g) => g.id === id);
+        if (posicao < 0) return prev;
+        anterior = prev.gastos[posicao];
+        return { ...prev, gastos: prev.gastos.filter((g) => g.id !== id) };
+      });
+
+      try {
+        await excluirGasto(id);
+      } catch (e) {
+        setEstado((prev) => {
+          if (prev.chave !== chave || !anterior) return prev;
+          const restaurado = [...prev.gastos];
+          restaurado.splice(posicao, 0, anterior);
+          return { ...prev, gastos: restaurado };
+        });
+        throw e;
+      }
+    },
+    [chave]
+  );
+
   const recarregar = useCallback(() => setRecarga((n) => n + 1), []);
 
   /**
@@ -125,5 +203,5 @@ export function useGastos(ano, mes) {
     };
   }, [gastos]);
 
-  return { gastos, totais, carregando, erro, adicionar, recarregar };
+  return { gastos, totais, carregando, erro, adicionar, editar, excluir, recarregar };
 }
