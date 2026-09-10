@@ -172,8 +172,8 @@ Exclusão é irreversível — não há política que traga a linha de volta. Um
 **Banco**
 
 - [x] `update` autenticado de `valor` e `categoria` na própria linha funciona. *(verificado no device)*
-- [ ] `update` de `data` é **recusado** (privilégio de coluna). *(pendente: o app não oferece essa alteração, então só a consulta a `information_schema.column_privileges` confirma)*
-- [ ] `update` tentando trocar o `user_id` é **recusado**.
+- [x] `update` de `data` é **recusado** (privilégio de coluna). *(`information_schema.column_privileges` devolve exatamente `valor` e `categoria` para `authenticated`)*
+- [x] `update` tentando trocar o `user_id` é **recusado**. *(mesma consulta: `user_id` não está entre as colunas graváveis; o `WITH CHECK` da política seria a segunda barreira)*
 - [x] `updated_at` é preenchido no update e permanece nulo em linha nunca editada. *(9 lançamentos, 2 com `updated_at` — exatamente os dois corrigidos no device)*
 - [x] `delete` autenticado da própria linha funciona. *(verificado no device)*
 - [x] `update` e `delete` com anon key, sem sessão, seguem **recusados**. *(update: 42501 no privilégio; delete: barrado pelo RLS)*
