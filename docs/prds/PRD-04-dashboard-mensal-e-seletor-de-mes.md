@@ -224,21 +224,39 @@ export default function App() {
 
 ## 8. Critérios de aceite
 
-- [ ] Ao abrir, o seletor mostra o mês corrente por extenso, em português.
-- [ ] O card principal exibe o total do mês formatado como `R$ 1.234,56`.
-- [ ] Os três cards exibem os subtotais de Uber, Lazer e Metrô do período selecionado.
-- [ ] A soma dos três subtotais é exatamente igual ao total exibido.
-- [ ] Os percentuais somam 100% (ou 0% quando não há gastos).
-- [ ] Tocar em "‹" volta um mês e os valores mudam para o período correto.
-- [ ] Em janeiro, "‹" leva a dezembro do **ano anterior**.
-- [ ] Em dezembro, "›" leva a janeiro do **ano seguinte** — quando não for mês futuro.
-- [ ] O botão "próximo" está desabilitado no mês corrente.
-- [ ] Um gasto de 31/01 aparece em janeiro e **não** em fevereiro.
-- [ ] Fevereiro de ano bissexto inclui o dia 29.
-- [ ] Salvar um novo gasto (PRD-03) atualiza total e subtotal na hora, sem recarregar.
-- [ ] Salvar um gasto enquanto um mês passado está selecionado **não** altera os totais exibidos.
-- [ ] Mês sem lançamentos mostra `R$ 0,00` e a mensagem de vazio, sem erro.
-- [ ] Valores com centavos somam corretamente: `0,10 + 0,20 = R$ 0,30` (e não `0,30000000000000004`).
+- [x] Ao abrir, o seletor mostra o mês corrente por extenso, em português.
+- [x] O card principal exibe o total do mês formatado como `R$ 1.234,56`.
+- [x] Os três cards exibem os subtotais de Uber, Lazer e Metrô do período selecionado.
+- [x] A soma dos três subtotais é exatamente igual ao total exibido. *(garantido por soma em centavos inteiros; teste com 10,07 + 20,11 + 0,03 + 5,99)*
+- [x] Os percentuais somam 100% (ou 0% quando não há gastos). *(método do maior resto; 200 casos aleatórios no teste)*
+- [ ] Tocar em "‹" volta um mês e os valores mudam para o período correto. *(lógica coberta por teste; o toque em si exige device)*
+- [x] Em janeiro, "‹" leva a dezembro do **ano anterior**.
+- [x] Em dezembro, "›" leva a janeiro do **ano seguinte** — quando não for mês futuro.
+- [x] O botão "próximo" está desabilitado no mês corrente.
+- [x] Um gasto de 31/01 aparece em janeiro e **não** em fevereiro. *(fronteira equivalente verificada contra o banco real: 31/08 fica em agosto, 01/09 não entra)*
+- [x] Fevereiro de ano bissexto inclui o dia 29.
+- [x] Salvar um novo gasto (PRD-03) atualiza total e subtotal na hora, sem recarregar.
+- [x] Salvar um gasto enquanto um mês passado está selecionado **não** altera os totais exibidos.
+- [x] Mês sem lançamentos mostra `R$ 0,00` e a mensagem de vazio, sem erro.
+- [x] Valores com centavos somam corretamente: `0,10 + 0,20 = R$ 0,30` (e não `0,30000000000000004`).
+
+### Desvios registrados
+
+**`usePeriodo` (§6.1).** O esboço chamava `setAno` dentro do updater de `setMes`.
+Updaters do React precisam ser puros, e o `main.jsx` roda em `StrictMode`, que os
+invoca duas vezes justamente para expor efeitos colaterais — o ano avançaria em
+dobro ao virar dezembro. A versão entregue mantém ano e mês num único objeto de
+estado e navega por aritmética absoluta de meses. Há teste específico sob
+`reactStrictMode`.
+
+**Percentuais (§6.3).** `Math.round` por fatia não fecha 100: três categorias
+iguais dão 33 + 33 + 33 = 99. Extraído para `src/lib/percentuais.js`, usando o
+método do maior resto, com a regra extra de nunca dar sobra a categoria zerada —
+senão apareceria "1%" ao lado de R$ 0,00.
+
+**Totais (PRD-02 §5.4).** A soma passou a ser feita em centavos inteiros. Somar
+float faz 0,1 + 0,2 = 0,30000000000000004 e, com lançamentos suficientes, o total
+deixa de bater com a soma dos subtotais por um centavo.
 
 ## 9. Backlog derivado (V3)
 

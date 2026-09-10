@@ -98,14 +98,31 @@ export function useGastos(ano, mes) {
 
   const recarregar = useCallback(() => setRecarga((n) => n + 1), []);
 
+  /**
+   * Soma em centavos inteiros e converte no fim.
+   *
+   * Acumular float dá 0.1 + 0.2 = 0.30000000000000004, e com valores suficientes
+   * o total exibido deixa de bater com a soma dos três subtotais por um centavo.
+   * Dinheiro não se soma em ponto flutuante.
+   */
   const totais = useMemo(() => {
-    const porCategoria = Object.fromEntries(CATEGORIA_IDS.map((c) => [c, 0]));
-    let total = 0;
+    const centavosPorCategoria = Object.fromEntries(CATEGORIA_IDS.map((c) => [c, 0]));
+    let centavosTotal = 0;
+
     for (const g of gastos) {
-      total += g.valor;
-      if (g.categoria in porCategoria) porCategoria[g.categoria] += g.valor;
+      const centavos = Math.round(g.valor * 100);
+      centavosTotal += centavos;
+      if (g.categoria in centavosPorCategoria) {
+        centavosPorCategoria[g.categoria] += centavos;
+      }
     }
-    return { total, porCategoria };
+
+    return {
+      total: centavosTotal / 100,
+      porCategoria: Object.fromEntries(
+        Object.entries(centavosPorCategoria).map(([c, v]) => [c, v / 100])
+      ),
+    };
   }, [gastos]);
 
   return { gastos, totais, carregando, erro, adicionar, recarregar };
