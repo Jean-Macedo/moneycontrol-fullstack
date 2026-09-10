@@ -177,6 +177,7 @@ Exclusão é irreversível — não há política que traga a linha de volta. Um
 - [ ] `updated_at` é preenchido no update e permanece nulo em linha nunca editada.
 - [ ] `delete` autenticado da própria linha funciona.
 - [ ] `update` e `delete` com anon key, sem sessão, seguem **recusados**.
+- [ ] Depois do `005`, o `delete` anônimo falha com `42501` explícito em vez de devolver lista vazia.
 
 **Interface**
 
@@ -201,6 +202,7 @@ Exclusão é irreversível — não há política que traga a linha de volta. Um
 | Rollback incompleto em falha de rede | Tela divergindo do banco | Estado otimista com reversão, coberto por teste |
 | Lista longa em mês cheio | Rolagem infinita na tela de lançamento | Aceito na V2.1: um mês pessoal raramente passa de algumas dezenas. Paginar se incomodar |
 | Reintroduzir `grant update` amplo numa migração futura | Colunas protegidas voltam a ser graváveis | O gatilho segura mesmo assim |
+| Política de delete criada larga demais no futuro (`to public`) | Exclusão anônima passaria pelo RLS | `005`: `anon` não tem mais o privilégio de delete — a camada de baixo segura |
 
 ## 10. Backlog derivado
 
