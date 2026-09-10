@@ -171,27 +171,27 @@ Exclusão é irreversível — não há política que traga a linha de volta. Um
 
 **Banco**
 
-- [ ] `update` autenticado de `valor` e `categoria` na própria linha funciona.
-- [ ] `update` de `data` é **recusado** (privilégio de coluna).
+- [x] `update` autenticado de `valor` e `categoria` na própria linha funciona. *(verificado no device)*
+- [ ] `update` de `data` é **recusado** (privilégio de coluna). *(pendente: o app não oferece essa alteração, então só a consulta a `information_schema.column_privileges` confirma)*
 - [ ] `update` tentando trocar o `user_id` é **recusado**.
-- [ ] `updated_at` é preenchido no update e permanece nulo em linha nunca editada.
-- [ ] `delete` autenticado da própria linha funciona.
-- [ ] `update` e `delete` com anon key, sem sessão, seguem **recusados**.
-- [ ] Depois do `005`, o `delete` anônimo falha com `42501` explícito em vez de devolver lista vazia.
+- [ ] `updated_at` é preenchido no update e permanece nulo em linha nunca editada. *(pendente: sem interface que exiba a coluna, exige consulta no SQL Editor)*
+- [x] `delete` autenticado da própria linha funciona. *(verificado no device)*
+- [x] `update` e `delete` com anon key, sem sessão, seguem **recusados**. *(update: 42501 no privilégio; delete: barrado pelo RLS)*
+- [ ] Depois do `005`, o `delete` anônimo falha com `42501` explícito em vez de devolver lista vazia. *(o `005` ainda não foi executado)*
 
 **Interface**
 
-- [ ] A lista mostra os lançamentos do mês selecionado, mais recente primeiro.
-- [ ] Trocar de mês troca a lista.
-- [ ] Editar o valor atualiza o total do mês e o subtotal da categoria na hora.
-- [ ] Mudar a categoria move o valor entre os subtotais, sem alterar o total.
-- [ ] Excluir remove a linha e reduz os totais imediatamente.
-- [ ] Falha de rede na edição desfaz a mudança na tela e avisa.
-- [ ] Falha de rede na exclusão traz a linha de volta.
-- [ ] Excluir pede confirmação nomeando valor e categoria.
-- [ ] O campo de edição abre com o valor formatado em vírgula.
-- [ ] Salvar fica desabilitado com valor inválido ou sem alteração.
-- [ ] Mês sem lançamentos não mostra lista nem quebra.
+- [x] A lista mostra os lançamentos do mês selecionado, mais recente primeiro.
+- [x] Trocar de mês troca a lista.
+- [x] Editar o valor atualiza o total do mês e o subtotal da categoria na hora.
+- [x] Mudar a categoria move o valor entre os subtotais, sem alterar o total.
+- [x] Excluir remove a linha e reduz os totais imediatamente.
+- [x] Falha de rede na edição desfaz a mudança na tela e avisa. *(teste do hook + teste da folha de edição; não exercitado contra rede real)*
+- [x] Falha de rede na exclusão traz a linha de volta, na posição original. *(teste do hook)*
+- [x] Excluir pede confirmação nomeando valor e categoria.
+- [x] O campo de edição abre com o valor formatado em vírgula.
+- [x] Salvar fica desabilitado com valor inválido ou sem alteração.
+- [x] Mês sem lançamentos não mostra lista nem quebra.
 
 ## 9. Riscos
 
